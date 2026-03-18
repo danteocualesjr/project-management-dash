@@ -3,7 +3,7 @@
 import { Task, TASK_PRIORITY_CONFIG } from '@/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Calendar, GripVertical } from 'lucide-react';
+import { GripVertical } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { format, isToday, isTomorrow, isPast, parseISO } from 'date-fns';
 
@@ -18,7 +18,14 @@ const priorityDot: Record<string, string> = {
   urgent: 'bg-red-500',
   high: 'bg-orange-500',
   medium: 'bg-blue-400',
-  low: 'bg-zinc-300',
+  low: 'bg-slate-300',
+};
+
+const priorityLabel: Record<string, string> = {
+  urgent: 'Urgent',
+  high: 'High',
+  medium: 'Medium',
+  low: 'Low',
 };
 
 export function TaskCard({ task, onStatusChange, onClick, isDragging }: TaskCardProps) {
@@ -35,15 +42,15 @@ export function TaskCard({ task, onStatusChange, onClick, isDragging }: TaskCard
   return (
     <div
       className={cn(
-        'flex items-center gap-3 rounded-md border bg-card px-3 py-2 hover:bg-muted/50 transition-colors',
-        isDragging && 'opacity-50',
-        isDone && 'opacity-50',
+        'flex items-center gap-3 rounded-lg border bg-card px-3 py-2.5 hover:border-primary/20 hover:shadow-sm transition-all',
+        isDragging && 'opacity-50 shadow-lg',
+        isDone && 'opacity-60',
         onClick && 'cursor-pointer'
       )}
       onClick={onClick}
     >
-      <GripVertical className="h-3.5 w-3.5 text-muted-foreground/40 cursor-grab flex-shrink-0" />
-      
+      <GripVertical className="h-3.5 w-3.5 text-muted-foreground/30 cursor-grab flex-shrink-0" />
+
       <Checkbox
         checked={isDone}
         onCheckedChange={() => onStatusChange?.(task.id, isDone ? 'todo' : 'done')}
@@ -52,7 +59,7 @@ export function TaskCard({ task, onStatusChange, onClick, isDragging }: TaskCard
       />
 
       <div className="flex-1 min-w-0 flex items-center gap-2">
-        <span className={cn('h-1.5 w-1.5 rounded-full flex-shrink-0', priorityDot[task.priority])} />
+        <span className={cn('h-2 w-2 rounded-full flex-shrink-0', priorityDot[task.priority])} title={priorityLabel[task.priority]} />
         <span className={cn('text-sm truncate', isDone && 'line-through text-muted-foreground')}>
           {task.title}
         </span>
@@ -61,16 +68,16 @@ export function TaskCard({ task, onStatusChange, onClick, isDragging }: TaskCard
       {task.due_date && (
         <span className={cn(
           'text-xs flex-shrink-0 tabular-nums',
-          overdue ? 'text-destructive' : 'text-muted-foreground'
+          overdue ? 'text-destructive font-medium' : 'text-muted-foreground'
         )}>
           {formatDue(task.due_date)}
         </span>
       )}
 
       {task.assignee && (
-        <Avatar className="h-5 w-5 flex-shrink-0">
+        <Avatar className="h-6 w-6 flex-shrink-0">
           <AvatarImage src={task.assignee.avatar_url || undefined} />
-          <AvatarFallback className="text-[9px] bg-muted">
+          <AvatarFallback className="text-[9px]">
             {task.assignee.full_name?.split(' ').map(n => n[0]).join('').slice(0, 2) || 'U'}
           </AvatarFallback>
         </Avatar>

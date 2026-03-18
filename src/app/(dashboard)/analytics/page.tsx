@@ -203,9 +203,9 @@ export default function AnalyticsPage() {
         title="Analytics"
         description="Track progress and team performance"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <Select value={selectedTeam} onValueChange={(value) => setSelectedTeam(value || 'all')}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="h-8 w-[160px] text-xs">
               <SelectValue placeholder="All Teams" />
             </SelectTrigger>
             <SelectContent>
@@ -224,7 +224,7 @@ export default function AnalyticsPage() {
             </SelectContent>
           </Select>
           <Select value={timeRange} onValueChange={(value) => setTimeRange(value || '7d')}>
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="h-8 w-[130px] text-xs">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

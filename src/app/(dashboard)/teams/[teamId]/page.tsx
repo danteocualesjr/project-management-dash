@@ -87,32 +87,29 @@ export default function TeamPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
+        <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
           <Link href={ROUTES.TEAMS}>
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
         <div className="flex items-center gap-3">
           <div
-            className="h-12 w-12 rounded-lg flex items-center justify-center"
-            style={{ backgroundColor: team.color + '20' }}
+            className="h-10 w-10 rounded-lg flex items-center justify-center text-white text-xs font-bold"
+            style={{ backgroundColor: team.color || '#6366f1' }}
           >
-            <div
-              className="h-6 w-6 rounded-full"
-              style={{ backgroundColor: team.color }}
-            />
+            {team.name.slice(0, 2).toUpperCase()}
           </div>
           <div>
-            <h1 className="text-2xl font-bold">{team.name}</h1>
+            <h1 className="text-xl font-semibold tracking-tight">{team.name}</h1>
             {team.description && (
-              <p className="text-muted-foreground">{team.description}</p>
+              <p className="text-sm text-muted-foreground">{team.description}</p>
             )}
           </div>
         </div>
         <div className="ml-auto">
-          <Button variant="outline" asChild>
+          <Button variant="outline" size="sm" asChild>
             <Link href={ROUTES.TEAM(team.id) + '/settings'}>
-              <Settings className="mr-2 h-4 w-4" />
+              <Settings className="mr-1.5 h-4 w-4" />
               Settings
             </Link>
           </Button>

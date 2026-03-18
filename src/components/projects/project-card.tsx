@@ -2,7 +2,6 @@
 
 import { useRouter } from 'next/navigation';
 import { Project, PROJECT_STATUS_CONFIG } from '@/types';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,7 +20,7 @@ interface ProjectCardProps {
 }
 
 const statusDot: Record<string, string> = {
-  planning: 'bg-zinc-400',
+  planning: 'bg-slate-400',
   in_progress: 'bg-blue-500',
   on_hold: 'bg-amber-500',
   completed: 'bg-emerald-500',
@@ -37,17 +36,11 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 
   return (
     <div
-      className="rounded-lg border bg-card p-4 hover:bg-muted/50 transition-colors cursor-pointer"
+      className="rounded-xl border bg-card p-5 hover:border-primary/20 hover:shadow-sm transition-all cursor-pointer"
       onClick={() => router.push(`${ROUTES.PROJECTS}/${project.id}`)}
     >
-      <div className="flex items-start justify-between mb-2">
-        <div className="min-w-0 flex-1">
-          <p className="font-medium text-sm truncate">{project.name}</p>
-          <div className="flex items-center gap-1.5 mt-1">
-            <span className={cn('h-1.5 w-1.5 rounded-full', statusDot[project.status] || 'bg-zinc-400')} />
-            <span className="text-xs text-muted-foreground">{statusConfig.label}</span>
-          </div>
-        </div>
+      <div className="flex items-start justify-between mb-1">
+        <p className="font-semibold text-sm truncate flex-1">{project.name}</p>
         <DropdownMenu>
           <DropdownMenuTrigger
             className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors flex-shrink-0"
@@ -66,24 +59,32 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         </DropdownMenu>
       </div>
 
+      <div className="flex items-center gap-1.5 mb-3">
+        <span className={cn('h-2 w-2 rounded-full', statusDot[project.status] || 'bg-slate-400')} />
+        <span className="text-xs text-muted-foreground">{statusConfig.label}</span>
+      </div>
+
       {project.description && (
         <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{project.description}</p>
       )}
 
       {total > 0 && (
         <div className="mb-3">
-          <div className="flex items-center justify-between text-xs mb-1">
-            <span className="text-muted-foreground">{completed}/{total} tasks</span>
-            <span className="tabular-nums">{pct}%</span>
+          <div className="flex items-center justify-between text-xs mb-1.5">
+            <span className="text-muted-foreground">{completed} of {total} tasks</span>
+            <span className="font-medium tabular-nums">{pct}%</span>
           </div>
-          <div className="h-1 bg-muted rounded-full overflow-hidden">
-            <div className="h-full bg-foreground/20 rounded-full transition-all" style={{ width: `${pct}%` }} />
+          <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+            <div
+              className="h-full bg-primary rounded-full transition-all"
+              style={{ width: `${pct}%` }}
+            />
           </div>
         </div>
       )}
 
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        {project.team && <span>{project.team.name}</span>}
+      <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t">
+        {project.team ? <span>{project.team.name}</span> : <span />}
         {project.end_date && (
           <span className={cn('flex items-center gap-1', overdue && 'text-destructive')}>
             <Calendar className="h-3 w-3" />
