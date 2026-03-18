@@ -10,6 +10,7 @@ import {
   Shield,
   LayoutDashboard,
   Calendar,
+  Columns3,
 } from 'lucide-react';
 import { ROUTES } from '@/lib/constants';
 

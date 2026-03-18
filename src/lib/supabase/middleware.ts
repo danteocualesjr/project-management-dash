@@ -10,8 +10,8 @@ export async function updateSession(request: NextRequest) {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!supabaseUrl || !supabaseKey || supabaseUrl === 'your-supabase-url' || supabaseKey === 'your-supabase-anon-key') {
-    const publicPaths = ['/login', '/register', '/'];
-    const isPublicPath = publicPaths.some(path => request.nextUrl.pathname === path);
+    const publicPaths = ['/login', '/register', '/', '/board', '/dashboard', '/teams', '/projects', '/tasks', '/calendar', '/analytics', '/settings'];
+    const isPublicPath = publicPaths.some(path => request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(path + '/'));
     
     if (!isPublicPath) {
       const url = request.nextUrl.clone();
