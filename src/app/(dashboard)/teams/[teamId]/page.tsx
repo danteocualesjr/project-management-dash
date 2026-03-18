@@ -225,12 +225,11 @@ export default function TeamPage() {
                   icon={FolderKanban}
                   title="No projects yet"
                   description="Create your first project for this team."
-                  action={{
-                    label: 'Create Project',
-                    onClick: () =>
-                      router.push(ROUTES.PROJECTS + `?team=${team.id}&create=true`),
-                  }}
-                  className="py-8"
+                  action={
+                    <Button size="sm" onClick={() => router.push(ROUTES.PROJECTS + `?team=${team.id}&create=true`)}>
+                      <Plus className="mr-1.5 h-4 w-4" /> Create Project
+                    </Button>
+                  }
                 />
               ) : (
                 <div className="space-y-4">
@@ -266,11 +265,11 @@ export default function TeamPage() {
                   icon={FolderKanban}
                   title="No projects yet"
                   description="Create your first project for this team."
-                  action={{
-                    label: 'Create Project',
-                    onClick: () =>
-                      router.push(ROUTES.PROJECTS + `?team=${team.id}&create=true`),
-                  }}
+                  action={
+                    <Button size="sm" onClick={() => router.push(ROUTES.PROJECTS + `?team=${team.id}&create=true`)}>
+                      <Plus className="mr-1.5 h-4 w-4" /> Create Project
+                    </Button>
+                  }
                 />
               ) : (
                 <div className="space-y-4">
@@ -310,10 +309,11 @@ export default function TeamPage() {
                   icon={Users}
                   title="No members yet"
                   description="Add team members to start collaborating."
-                  action={{
-                    label: 'Add Member',
-                    onClick: () => {},
-                  }}
+                  action={
+                    <Button size="sm">
+                      <Plus className="mr-1.5 h-4 w-4" /> Add Member
+                    </Button>
+                  }
                 />
               ) : (
                 <div className="space-y-4">

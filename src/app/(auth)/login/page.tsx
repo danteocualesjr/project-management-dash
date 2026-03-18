@@ -26,13 +26,8 @@ export default function LoginPage() {
 
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-
       router.push(ROUTES.DASHBOARD);
       router.refresh();
     } catch (err) {
@@ -44,53 +39,34 @@ export default function LoginPage() {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
-        <p className="text-sm text-muted-foreground">
-          Enter your credentials to sign in
+      <div>
+        <h1 className="text-xl font-semibold tracking-tight">Log in</h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Enter your email to sign in to your account.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="p-3 rounded-md bg-destructive/10 text-destructive text-sm">
-            {error}
-          </div>
+          <p className="text-sm text-destructive">{error}</p>
         )}
-
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="you@vismotor.com"
-            required
-            disabled={isLoading}
-          />
+          <Input id="email" name="email" type="email" placeholder="you@vismotor.com" required disabled={isLoading} />
         </div>
-
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Enter your password"
-            required
-            disabled={isLoading}
-          />
+          <Input id="password" name="password" type="password" required disabled={isLoading} />
         </div>
-
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Sign in
+          Log in
         </Button>
       </form>
 
       <p className="text-center text-sm text-muted-foreground">
-        Don&apos;t have an account?{' '}
-        <Link href={ROUTES.REGISTER} className="text-primary hover:underline">
+        No account?{' '}
+        <Link href={ROUTES.REGISTER} className="text-foreground underline underline-offset-4 hover:text-foreground/80">
           Sign up
         </Link>
       </p>

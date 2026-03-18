@@ -3,19 +3,9 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
 import { NAV_ITEMS, ROUTES } from '@/lib/constants';
 import { useAppStore } from '@/store/use-app-store';
-import {
-  Building2,
-  ChevronLeft,
-  Settings,
-} from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { Settings, ChevronsLeft } from 'lucide-react';
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -24,100 +14,79 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 left-0 z-50 flex flex-col bg-card border-r transition-[width] duration-200',
-        sidebarCollapsed ? 'w-16' : 'w-60'
+        'fixed inset-y-0 left-0 z-50 flex flex-col border-r bg-sidebar transition-[width] duration-150',
+        sidebarCollapsed ? 'w-14' : 'w-56'
       )}
     >
-      {/* Logo */}
-      <div className="h-14 flex items-center px-4 border-b">
-        <Link href={ROUTES.DASHBOARD} className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
-            <Building2 className="h-4 w-4 text-primary-foreground" />
-          </div>
+      <div className={cn(
+        'flex items-center h-12 border-b px-3',
+        sidebarCollapsed ? 'justify-center' : 'justify-between'
+      )}>
+        <Link href={ROUTES.DASHBOARD} className="flex items-center gap-2 min-w-0">
+          <span className="h-6 w-6 rounded bg-foreground text-background flex items-center justify-center text-xs font-bold flex-shrink-0">
+            V
+          </span>
           {!sidebarCollapsed && (
-            <span className="font-semibold">Vismotor PM</span>
+            <span className="text-sm font-semibold truncate">Vismotor PM</span>
           )}
         </Link>
+        {!sidebarCollapsed && (
+          <button
+            className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
+            onClick={() => setSidebarCollapsed(true)}
+          >
+            <ChevronsLeft className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-2 space-y-1 overflow-y-auto">
+      <nav className="flex-1 py-2 px-2 space-y-0.5 overflow-y-auto">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href || 
             (item.href !== ROUTES.DASHBOARD && pathname.startsWith(item.href));
           const Icon = item.icon;
 
-          const navLink = (
+          return (
             <Link
+              key={item.href}
               href={item.href}
+              title={sidebarCollapsed ? item.label : undefined}
               className={cn(
-                'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                'flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium transition-colors',
                 isActive
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  ? 'bg-accent text-foreground'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-accent/50'
               )}
             >
               <Icon className="h-4 w-4 flex-shrink-0" />
               {!sidebarCollapsed && <span>{item.label}</span>}
             </Link>
           );
-
-          if (sidebarCollapsed) {
-            return (
-              <Tooltip key={item.href} delayDuration={0}>
-                <TooltipTrigger asChild>
-                  {navLink}
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                  {item.label}
-                </TooltipContent>
-              </Tooltip>
-            );
-          }
-
-          return <div key={item.href}>{navLink}</div>;
         })}
       </nav>
 
-      {/* Bottom */}
-      <div className="p-2 border-t space-y-1">
-        {sidebarCollapsed ? (
-          <Tooltip delayDuration={0}>
-            <TooltipTrigger asChild>
-              <Link
-                href={ROUTES.SETTINGS}
-                className="flex items-center justify-center rounded-md p-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-              >
-                <Settings className="h-4 w-4" />
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Settings</TooltipContent>
-          </Tooltip>
-        ) : (
-          <Link
-            href={ROUTES.SETTINGS}
-            className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-          >
-            <Settings className="h-4 w-4" />
-            <span>Settings</span>
-          </Link>
-        )}
-
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+      <div className="border-t py-2 px-2 space-y-0.5">
+        <Link
+          href={ROUTES.SETTINGS}
+          title={sidebarCollapsed ? 'Settings' : undefined}
           className={cn(
-            'w-full text-muted-foreground',
-            sidebarCollapsed ? 'justify-center px-2' : 'justify-start gap-3 px-3'
+            'flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors',
+            pathname === ROUTES.SETTINGS && 'bg-accent text-foreground'
           )}
         >
-          <ChevronLeft className={cn(
-            'h-4 w-4 transition-transform',
-            sidebarCollapsed && 'rotate-180'
-          )} />
-          {!sidebarCollapsed && <span>Collapse</span>}
-        </Button>
+          <Settings className="h-4 w-4 flex-shrink-0" />
+          {!sidebarCollapsed && <span>Settings</span>}
+        </Link>
+
+        {sidebarCollapsed && (
+          <button
+            onClick={() => setSidebarCollapsed(false)}
+            title="Expand sidebar"
+            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors w-full"
+          >
+            <ChevronsLeft className="h-4 w-4 rotate-180" />
+          </button>
+        )}
       </div>
     </aside>
   );

@@ -46,126 +46,71 @@ function ProjectsContent() {
     }
   }, [searchParams]);
 
-  const filteredProjects = projects.filter((project) => {
-    const matchesSearch = project.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesStatus =
-      statusFilter === 'all' || project.status === statusFilter;
-    const matchesTeam = teamFilter === 'all' || project.team_id === teamFilter;
-    return matchesSearch && matchesStatus && matchesTeam;
+  const filtered = projects.filter((p) => {
+    const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchStatus = statusFilter === 'all' || p.status === statusFilter;
+    const matchTeam = teamFilter === 'all' || p.team_id === teamFilter;
+    return matchSearch && matchStatus && matchTeam;
   });
 
-  const handleCreate = () => {
-    setSelectedProject(null);
-    setDefaultTeamId(undefined);
-    setDialogOpen(true);
-  };
+  const handleCreate = () => { setSelectedProject(null); setDefaultTeamId(undefined); setDialogOpen(true); };
+  const handleEdit = (p: Project) => { setSelectedProject(p); setDialogOpen(true); };
+  const handleDelete = (p: Project) => { setSelectedProject(p); setDeleteDialogOpen(true); };
 
-  const handleEdit = (project: Project) => {
-    setSelectedProject(project);
-    setDialogOpen(true);
-  };
-
-  const handleDelete = (project: Project) => {
-    setSelectedProject(project);
-    setDeleteDialogOpen(true);
-  };
-
-  const handleSubmit = async (data: {
-    name: string;
-    description?: string;
-    team_id: string;
-    status: ProjectStatus;
-    start_date?: string;
-    end_date?: string;
-  }) => {
+  const handleSubmit = async (data: { name: string; description?: string; team_id: string; status: ProjectStatus; start_date?: string; end_date?: string }) => {
     try {
-      if (selectedProject) {
-        await editProject(selectedProject.id, data);
-        toast.success('Project updated successfully');
-      } else {
-        await createProject(data as Project);
-        toast.success('Project created successfully');
-      }
-    } catch (error) {
-      toast.error(
-        selectedProject ? 'Failed to update project' : 'Failed to create project'
-      );
-      throw error;
-    }
+      if (selectedProject) { await editProject(selectedProject.id, data); toast.success('Project updated'); }
+      else { await createProject(data as Project); toast.success('Project created'); }
+    } catch { toast.error('Something went wrong'); }
   };
 
   const handleConfirmDelete = async () => {
     if (!selectedProject) return;
-    try {
-      await deleteProject(selectedProject.id);
-      toast.success('Project deleted successfully');
-    } catch (error) {
-      toast.error('Failed to delete project');
-      throw error;
-    }
+    try { await deleteProject(selectedProject.id); toast.success('Project deleted'); }
+    catch { toast.error('Failed to delete project'); }
   };
 
   if (isLoading) {
     return (
       <div className="space-y-6">
         <PageHeader title="Projects" description="Manage and track your team projects" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-48" />
-          ))}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 rounded-lg" />)}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <PageHeader title="Projects" description="Manage and track your team projects">
-        <Button onClick={handleCreate}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Project
+        <Button size="sm" onClick={handleCreate}>
+          <Plus className="mr-1.5 h-4 w-4" /> New project
         </Button>
       </PageHeader>
 
       {projects.length > 0 && (
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="relative flex-1 sm:w-64">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                placeholder="Search projects..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
-              />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-2">
+            <div className="relative sm:w-56">
+              <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+              <Input placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="h-8 pl-8 text-sm" />
             </div>
-            <Select value={teamFilter} onValueChange={(value) => setTeamFilter(value || 'all')}>
-              <SelectTrigger className="w-[140px]">
-                <SelectValue placeholder="All Teams" />
+            <Select value={teamFilter} onValueChange={(v) => setTeamFilter(v || 'all')}>
+              <SelectTrigger className="h-8 w-[130px] text-xs">
+                <SelectValue placeholder="All teams" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Teams</SelectItem>
-                {teams.map((team) => (
-                  <SelectItem key={team.id} value={team.id}>
-                    {team.name}
-                  </SelectItem>
-                ))}
+                <SelectItem value="all">All teams</SelectItem>
+                {teams.map((t) => <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
-
-          <Tabs
-            value={statusFilter}
-            onValueChange={(v) => setStatusFilter(v as ProjectStatus | 'all')}
-          >
-            <TabsList>
-              <TabsTrigger value="all">All</TabsTrigger>
-              {Object.entries(PROJECT_STATUS_CONFIG).map(([value, config]) => (
-                <TabsTrigger key={value} value={value}>
-                  {config.label}
-                </TabsTrigger>
+          <Tabs value={statusFilter} onValueChange={(v) => setStatusFilter(v as ProjectStatus | 'all')}>
+            <TabsList className="h-8">
+              <TabsTrigger value="all" className="text-xs h-6 px-2.5">All</TabsTrigger>
+              {Object.entries(PROJECT_STATUS_CONFIG).map(([v, c]) => (
+                <TabsTrigger key={v} value={v} className="text-xs h-6 px-2.5">{c.label}</TabsTrigger>
               ))}
             </TabsList>
           </Tabs>
@@ -173,51 +118,18 @@ function ProjectsContent() {
       )}
 
       {projects.length === 0 ? (
-        <EmptyState
-          icon={FolderKanban}
-          title="No projects yet"
-          description="Create your first project to start tracking tasks and progress."
-          action={
-            <Button onClick={handleCreate}>
-              <Plus className="mr-2 h-4 w-4" />
-              Create Project
-            </Button>
-          }
-        />
-      ) : filteredProjects.length === 0 ? (
-        <EmptyState
-          icon={Search}
-          title="No projects found"
-          description="Try adjusting your filters or search query."
-        />
+        <EmptyState icon={FolderKanban} title="No projects yet" description="Create your first project to get started."
+          action={<Button size="sm" onClick={handleCreate}><Plus className="mr-1.5 h-4 w-4" /> New project</Button>} />
+      ) : filtered.length === 0 ? (
+        <EmptyState icon={Search} title="No results" description="Try different filters or search term." />
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredProjects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((p) => <ProjectCard key={p.id} project={p} onEdit={handleEdit} onDelete={handleDelete} />)}
         </div>
       )}
 
-      <ProjectDialog
-        open={dialogOpen}
-        onOpenChange={setDialogOpen}
-        project={selectedProject}
-        teams={teams}
-        defaultTeamId={defaultTeamId}
-        onSubmit={handleSubmit}
-      />
-
-      <DeleteTeamDialog
-        open={deleteDialogOpen}
-        onOpenChange={setDeleteDialogOpen}
-        team={selectedProject as any}
-        onConfirm={handleConfirmDelete}
-      />
+      <ProjectDialog open={dialogOpen} onOpenChange={setDialogOpen} project={selectedProject} teams={teams} defaultTeamId={defaultTeamId} onSubmit={handleSubmit} />
+      <DeleteTeamDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen} team={selectedProject as any} onConfirm={handleConfirmDelete} />
     </div>
   );
 }
@@ -227,10 +139,8 @@ export default function ProjectsPage() {
     <Suspense fallback={
       <div className="space-y-6">
         <PageHeader title="Projects" description="Manage and track your team projects" />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-48" />
-          ))}
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-40 rounded-lg" />)}
         </div>
       </div>
     }>

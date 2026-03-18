@@ -46,72 +46,72 @@
 }
 
 :root {
-  --background: hsl(0 0% 100%);
-  --foreground: hsl(224 71% 4%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(224 71% 4%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(224 71% 4%);
-  --primary: hsl(220 90% 56%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(220 14% 96%);
-  --secondary-foreground: hsl(220 9% 46%);
-  --muted: hsl(220 14% 96%);
-  --muted-foreground: hsl(220 9% 46%);
-  --accent: hsl(220 14% 96%);
-  --accent-foreground: hsl(224 71% 4%);
-  --destructive: hsl(0 84% 60%);
-  --border: hsl(220 13% 91%);
-  --input: hsl(220 13% 91%);
-  --ring: hsl(220 90% 56%);
-  --chart-1: hsl(220 90% 56%);
-  --chart-2: hsl(160 60% 45%);
-  --chart-3: hsl(30 80% 55%);
-  --chart-4: hsl(280 65% 60%);
-  --chart-5: hsl(340 75% 55%);
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --popover: #ffffff;
+  --popover-foreground: #0a0a0a;
+  --primary: #171717;
+  --primary-foreground: #fafafa;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #171717;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --accent: #f5f5f5;
+  --accent-foreground: #171717;
+  --destructive: #dc2626;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #171717;
+  --chart-1: #2563eb;
+  --chart-2: #16a34a;
+  --chart-3: #ea580c;
+  --chart-4: #7c3aed;
+  --chart-5: #db2777;
   --radius: 0.5rem;
-  --sidebar: hsl(0 0% 100%);
-  --sidebar-foreground: hsl(224 71% 4%);
-  --sidebar-primary: hsl(220 90% 56%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(220 14% 96%);
-  --sidebar-accent-foreground: hsl(224 71% 4%);
-  --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(220 90% 56%);
+  --sidebar: #fafafa;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #171717;
+  --sidebar-primary-foreground: #fafafa;
+  --sidebar-accent: #f0f0f0;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #171717;
 }
 
 .dark {
-  --background: hsl(224 71% 4%);
-  --foreground: hsl(210 20% 98%);
-  --card: hsl(224 50% 8%);
-  --card-foreground: hsl(210 20% 98%);
-  --popover: hsl(224 50% 8%);
-  --popover-foreground: hsl(210 20% 98%);
-  --primary: hsl(220 90% 60%);
-  --primary-foreground: hsl(0 0% 100%);
-  --secondary: hsl(215 28% 17%);
-  --secondary-foreground: hsl(210 20% 98%);
-  --muted: hsl(215 28% 17%);
-  --muted-foreground: hsl(217 10% 64%);
-  --accent: hsl(215 28% 17%);
-  --accent-foreground: hsl(210 20% 98%);
-  --destructive: hsl(0 62% 50%);
-  --border: hsl(215 28% 17%);
-  --input: hsl(215 28% 17%);
-  --ring: hsl(220 90% 60%);
-  --chart-1: hsl(220 90% 60%);
-  --chart-2: hsl(160 60% 50%);
-  --chart-3: hsl(30 80% 60%);
-  --chart-4: hsl(280 65% 65%);
-  --chart-5: hsl(340 75% 60%);
-  --sidebar: hsl(224 50% 8%);
-  --sidebar-foreground: hsl(210 20% 98%);
-  --sidebar-primary: hsl(220 90% 60%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(215 28% 17%);
-  --sidebar-accent-foreground: hsl(210 20% 98%);
-  --sidebar-border: hsl(215 28% 17%);
-  --sidebar-ring: hsl(220 90% 60%);
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #111113;
+  --card-foreground: #fafafa;
+  --popover: #111113;
+  --popover-foreground: #fafafa;
+  --primary: #fafafa;
+  --primary-foreground: #09090b;
+  --secondary: #1a1a1e;
+  --secondary-foreground: #fafafa;
+  --muted: #1a1a1e;
+  --muted-foreground: #a1a1aa;
+  --accent: #1a1a1e;
+  --accent-foreground: #fafafa;
+  --destructive: #f87171;
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #d4d4d8;
+  --chart-1: #60a5fa;
+  --chart-2: #4ade80;
+  --chart-3: #fb923c;
+  --chart-4: #a78bfa;
+  --chart-5: #f472b6;
+  --sidebar: #111113;
+  --sidebar-foreground: #fafafa;
+  --sidebar-primary: #fafafa;
+  --sidebar-primary-foreground: #09090b;
+  --sidebar-accent: #1a1a1e;
+  --sidebar-accent-foreground: #fafafa;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #d4d4d8;
 }
 
 @layer base {
@@ -121,14 +121,5 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
-  }
-  html {
-    @apply scroll-smooth;
-  }
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
   }
 }

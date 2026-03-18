@@ -1,63 +1,47 @@
 'use client';
 
 import { useDashboardStats } from '@/hooks/use-dashboard';
-import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { FolderKanban, CheckSquare, Users, TrendingUp } from 'lucide-react';
+import { FolderKanban, CheckSquare, Users, AlertTriangle } from 'lucide-react';
 
-const stats = [
-  { label: 'Total Projects', icon: FolderKanban },
-  { label: 'Active Tasks', icon: CheckSquare },
-  { label: 'Team Members', icon: Users },
-  { label: 'Completion Rate', icon: TrendingUp },
-];
+const items = [
+  { key: 'total_projects', label: 'Projects', icon: FolderKanban },
+  { key: 'total_tasks', label: 'Total tasks', icon: CheckSquare },
+  { key: 'completed_tasks', label: 'Completed', icon: CheckSquare },
+  { key: 'overdue_tasks', label: 'Overdue', icon: AlertTriangle },
+  { key: 'total_teams', label: 'Teams', icon: Users },
+  { key: 'tasks_due_soon', label: 'Due this week', icon: AlertTriangle },
+] as const;
 
 export function StatsCards() {
-  const { data, isLoading } = useDashboardStats();
-
-  const values = data
-    ? [
-        data.totalProjects,
-        data.activeTasks,
-        data.teamMembers,
-        data.completedTasks > 0
-          ? Math.round((data.completedTasks / (data.completedTasks + data.activeTasks)) * 100)
-          : 0,
-      ]
-    : [0, 0, 0, 0];
+  const { stats, isLoading } = useDashboardStats();
 
   if (isLoading) {
     return (
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[...Array(4)].map((_, i) => (
-          <Card key={i}>
-            <CardContent className="p-6">
-              <Skeleton className="h-4 w-24 mb-3" />
-              <Skeleton className="h-8 w-16" />
-            </CardContent>
-          </Card>
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+        {items.map((item) => (
+          <div key={item.key} className="rounded-lg border p-4">
+            <Skeleton className="h-3 w-16 mb-2" />
+            <Skeleton className="h-6 w-10" />
+          </div>
         ))}
       </div>
     );
   }
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {stats.map((stat, index) => {
-        const Icon = stat.icon;
-        const value = values[index];
-        const displayValue = index === 3 ? `${value}%` : value;
-
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      {items.map((item) => {
+        const Icon = item.icon;
+        const value = stats[item.key];
         return (
-          <Card key={stat.label}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-                <Icon className="h-4 w-4 text-muted-foreground" />
-              </div>
-              <p className="mt-2 text-3xl font-semibold">{displayValue}</p>
-            </CardContent>
-          </Card>
+          <div key={item.key} className="rounded-lg border bg-card p-4">
+            <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
+              <Icon className="h-3.5 w-3.5" />
+              <span className="text-xs">{item.label}</span>
+            </div>
+            <p className="text-2xl font-semibold tabular-nums">{value}</p>
+          </div>
         );
       })}
     </div>

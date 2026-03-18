@@ -8,24 +8,16 @@ import { TeamOverview } from '@/components/dashboard/team-overview';
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
-        <p className="text-muted-foreground">
-          Overview of your projects and tasks
-        </p>
-      </div>
-
+      <h1 className="text-lg font-semibold tracking-tight">Dashboard</h1>
       <StatsCards />
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      <div className="grid gap-6 lg:grid-cols-5">
+        <div className="lg:col-span-3">
           <TasksDueSoon />
         </div>
-        <div>
+        <div className="lg:col-span-2">
           <RecentActivity />
         </div>
       </div>
-
       <TeamOverview />
     </div>
   );

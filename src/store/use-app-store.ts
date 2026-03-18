@@ -9,7 +9,7 @@ interface AppState {
   currentProject: Project | null;
   tasks: Task[];
   isLoading: boolean;
-  sidebarOpen: boolean;
+  sidebarCollapsed: boolean;
 
   setUser: (user: User | null) => void;
   setTeams: (teams: Team[]) => void;
@@ -18,7 +18,7 @@ interface AppState {
   setCurrentProject: (project: Project | null) => void;
   setTasks: (tasks: Task[]) => void;
   setIsLoading: (loading: boolean) => void;
-  setSidebarOpen: (open: boolean) => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
   toggleSidebar: () => void;
   
   addTeam: (team: Team) => void;
@@ -43,7 +43,7 @@ export const useAppStore = create<AppState>((set) => ({
   currentProject: null,
   tasks: [],
   isLoading: false,
-  sidebarOpen: true,
+  sidebarCollapsed: false,
 
   setUser: (user) => set({ user }),
   setTeams: (teams) => set({ teams }),
@@ -52,8 +52,8 @@ export const useAppStore = create<AppState>((set) => ({
   setCurrentProject: (currentProject) => set({ currentProject }),
   setTasks: (tasks) => set({ tasks }),
   setIsLoading: (isLoading) => set({ isLoading }),
-  setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
-  toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+  setSidebarCollapsed: (sidebarCollapsed) => set({ sidebarCollapsed }),
+  toggleSidebar: () => set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed })),
 
   addTeam: (team) => set((state) => ({ teams: [...state.teams, team] })),
   updateTeam: (team) =>
