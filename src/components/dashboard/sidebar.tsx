@@ -1,48 +1,45 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS, ROUTES } from '@/lib/constants';
 import { useAppStore } from '@/store/use-app-store';
-import { Settings, ChevronsLeft } from 'lucide-react';
+import { Settings, Rocket } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { sidebarCollapsed, setSidebarCollapsed } = useAppStore();
+  const router = useRouter();
+  const { user } = useAppStore();
+
+  const initials = user?.full_name
+    ?.split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2) || 'AR';
 
   return (
-    <aside
-      className={cn(
-        'fixed inset-y-0 left-0 z-50 flex flex-col border-r bg-sidebar transition-[width] duration-150',
-        sidebarCollapsed ? 'w-14' : 'w-56'
-      )}
-    >
-      <div className={cn(
-        'flex items-center h-12 border-b px-3',
-        sidebarCollapsed ? 'justify-center' : 'justify-between'
-      )}>
-        <Link href={ROUTES.DASHBOARD} className="flex items-center gap-2 min-w-0">
-          <span className="h-7 w-7 rounded-lg bg-primary flex items-center justify-center text-[11px] font-bold text-white flex-shrink-0">
-            V
-          </span>
-          {!sidebarCollapsed && (
-            <span className="text-sm font-semibold truncate">Vismotor PM</span>
-          )}
+    <aside className="w-64 border-r border-border bg-card dark:bg-background flex flex-col fixed h-full z-50">
+      {/* Logo */}
+      <div className="p-6">
+        <Link href={ROUTES.DASHBOARD} className="flex items-center gap-3">
+          <div className="bg-primary rounded-lg p-2 text-white">
+            <Rocket className="h-5 w-5" />
+          </div>
+          <div>
+            <h1 className="text-sm font-bold leading-none">Vismotor Corp</h1>
+            <p className="text-xs text-muted-foreground mt-1">Project Suite</p>
+          </div>
         </Link>
-        {!sidebarCollapsed && (
-          <button
-            className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
-            onClick={() => setSidebarCollapsed(true)}
-          >
-            <ChevronsLeft className="h-4 w-4" />
-          </button>
-        )}
       </div>
 
-      <nav className="flex-1 py-2 px-2 space-y-0.5 overflow-y-auto">
+      {/* Navigation */}
+      <nav className="flex-1 px-4 space-y-1">
         {NAV_ITEMS.map((item) => {
-          const isActive = pathname === item.href || 
+          const isActive =
+            pathname === item.href ||
             (item.href !== ROUTES.DASHBOARD && pathname.startsWith(item.href));
           const Icon = item.icon;
 
@@ -50,43 +47,42 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              title={sidebarCollapsed ? item.label : undefined}
               className={cn(
-                'flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium transition-colors',
+                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
+                  ? 'bg-primary/10 text-primary dark:bg-primary/20'
+                  : 'text-muted-foreground hover:bg-accent dark:hover:bg-accent transition-colors'
               )}
             >
-              <Icon className="h-4 w-4 flex-shrink-0" />
-              {!sidebarCollapsed && <span>{item.label}</span>}
+              <Icon className="h-5 w-5" />
+              <span>{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="border-t py-2 px-2 space-y-0.5">
-        <Link
-          href={ROUTES.SETTINGS}
-          title={sidebarCollapsed ? 'Settings' : undefined}
-          className={cn(
-            'flex items-center gap-2.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors',
-            pathname === ROUTES.SETTINGS && 'bg-primary/10 text-primary'
-          )}
+      {/* User profile footer */}
+      <div className="p-4 border-t border-border">
+        <div
+          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
+          onClick={() => router.push(ROUTES.SETTINGS)}
         >
-          <Settings className="h-4 w-4 flex-shrink-0" />
-          {!sidebarCollapsed && <span>Settings</span>}
-        </Link>
-
-        {sidebarCollapsed && (
-          <button
-            onClick={() => setSidebarCollapsed(false)}
-            title="Expand sidebar"
-            className="flex items-center justify-center rounded-md p-1.5 text-muted-foreground hover:text-foreground hover:bg-accent transition-colors w-full"
-          >
-            <ChevronsLeft className="h-4 w-4 rotate-180" />
-          </button>
-        )}
+          <Avatar className="h-8 w-8">
+            <AvatarImage src={user?.avatar_url || undefined} />
+            <AvatarFallback className="text-xs font-medium bg-muted">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold truncate">
+              {user?.full_name || 'Alex Rivera'}
+            </p>
+            <p className="text-xs text-muted-foreground truncate">
+              {user?.email || 'Project Lead'}
+            </p>
+          </div>
+          <Settings className="h-4 w-4 text-muted-foreground" />
+        </div>
       </div>
     </aside>
   );

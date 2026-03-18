@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import {
   DndContext,
   DragOverlay,
@@ -107,11 +107,14 @@ const INITIAL_TASKS: BoardTask[] = [
 let nextId = 13;
 
 export default function BoardPage() {
+  const [mounted, setMounted] = useState(false);
   const [tasks, setTasks] = useState<BoardTask[]>(INITIAL_TASKS);
   const [activeTask, setActiveTask] = useState<BoardTask | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<BoardTask | null>(null);
   const [defaultStatus, setDefaultStatus] = useState<TaskStatus>('backlog');
+
+  useEffect(() => { setMounted(true); }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -225,6 +228,23 @@ export default function BoardPage() {
     }
     setDialogOpen(false);
   };
+
+  if (!mounted) {
+    return (
+      <div className="space-y-4">
+        <PageHeader title="Kanban Board" description="Drag and drop tasks between columns to update status">
+          <Button size="sm" onClick={() => handleAddTask('todo')}>
+            <Plus className="mr-1.5 h-4 w-4" /> New task
+          </Button>
+        </PageHeader>
+        <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6">
+          {COLUMNS.map((col) => (
+            <div key={col.id} className="w-72 min-w-[272px] h-80 rounded-xl bg-muted/50 border animate-pulse" />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

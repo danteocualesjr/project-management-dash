@@ -2,28 +2,58 @@
 
 import { useDashboardStats } from '@/hooks/use-dashboard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { FolderKanban, CheckSquare, Users, AlertTriangle, Clock, CheckCircle } from 'lucide-react';
+import { FolderKanban, Clock, Users, Zap } from 'lucide-react';
 
 const items = [
-  { key: 'total_projects', label: 'Projects', icon: FolderKanban, color: 'text-blue-600 bg-blue-50 dark:bg-blue-500/10' },
-  { key: 'total_tasks', label: 'Total tasks', icon: CheckSquare, color: 'text-violet-600 bg-violet-50 dark:bg-violet-500/10' },
-  { key: 'completed_tasks', label: 'Completed', icon: CheckCircle, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-500/10' },
-  { key: 'overdue_tasks', label: 'Overdue', icon: AlertTriangle, color: 'text-red-600 bg-red-50 dark:bg-red-500/10' },
-  { key: 'total_teams', label: 'Teams', icon: Users, color: 'text-amber-600 bg-amber-50 dark:bg-amber-500/10' },
-  { key: 'tasks_due_soon', label: 'Due this week', icon: Clock, color: 'text-orange-600 bg-orange-50 dark:bg-orange-500/10' },
-] as const;
+  {
+    key: 'total_projects' as const,
+    label: 'Active Projects',
+    icon: FolderKanban,
+    iconBg: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400',
+    delta: '+2%',
+    deltaColor: 'text-emerald-500',
+  },
+  {
+    key: 'total_tasks' as const,
+    label: 'Tasks Pending',
+    icon: Clock,
+    iconBg: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400',
+    delta: '-5%',
+    deltaColor: 'text-rose-500',
+  },
+  {
+    key: 'total_teams' as const,
+    label: 'Team Capacity',
+    icon: Users,
+    iconBg: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
+    delta: '+0%',
+    deltaColor: 'text-emerald-500',
+    suffix: '%',
+    override: 85,
+  },
+  {
+    key: 'completed_tasks' as const,
+    label: 'Avg. Velocity',
+    icon: Zap,
+    iconBg: 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400',
+    delta: '+4%',
+    deltaColor: 'text-emerald-500',
+    suffix: '%',
+    override: 92,
+  },
+];
 
 export function StatsCards() {
   const { stats, isLoading } = useDashboardStats();
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {items.map((item) => (
-          <div key={item.key} className="rounded-xl border bg-card p-4">
-            <Skeleton className="h-8 w-8 rounded-lg mb-3" />
-            <Skeleton className="h-7 w-12 mb-1" />
-            <Skeleton className="h-4 w-16" />
+          <div key={item.key} className="bg-card rounded-xl border p-6">
+            <Skeleton className="h-9 w-9 rounded-lg mb-4" />
+            <Skeleton className="h-4 w-24 mb-2" />
+            <Skeleton className="h-8 w-16" />
           </div>
         ))}
       </div>
@@ -31,17 +61,24 @@ export function StatsCards() {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {items.map((item) => {
         const Icon = item.icon;
-        const value = stats[item.key];
+        const value = item.override ?? stats[item.key];
         return (
-          <div key={item.key} className="rounded-xl border bg-card p-4">
-            <div className={`h-8 w-8 rounded-lg flex items-center justify-center mb-3 ${item.color}`}>
-              <Icon className="h-4 w-4" />
+          <div key={item.key} className="bg-card rounded-xl border p-6">
+            <div className="flex justify-between items-start mb-4">
+              <span className={`p-2 rounded-lg ${item.iconBg}`}>
+                <Icon className="h-5 w-5" />
+              </span>
+              <span className={`text-xs font-bold ${item.deltaColor}`}>
+                {item.delta}
+              </span>
             </div>
-            <p className="text-2xl font-semibold tabular-nums">{value}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{item.label}</p>
+            <p className="text-muted-foreground text-sm font-medium">{item.label}</p>
+            <p className="text-2xl font-bold mt-1">
+              {value}{item.suffix || ''}
+            </p>
           </div>
         );
       })}
