@@ -4,178 +4,179 @@ import { StatsCards } from '@/components/dashboard/stats-cards';
 import { useAppStore } from '@/store/use-app-store';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/constants';
-import { TrendingUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const PROJECTS = [
-  { name: 'Cloud Migration', status: 'In Progress', statusColor: 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400', progress: 75, barColor: 'bg-primary', deadline: 'Mar 24, 2026' },
-  { name: 'Mobile App Revamp', status: 'On Track', statusColor: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400', progress: 40, barColor: 'bg-emerald-500', deadline: 'Apr 12, 2026' },
-  { name: 'Security Audit', status: 'Delayed', statusColor: 'bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400', progress: 20, barColor: 'bg-rose-500', deadline: 'Mar 30, 2026' },
-];
-
-const TEAM_MEMBERS = [
-  { name: 'Sarah Johnson', tasks: 8, capacity: 95, color: 'bg-rose-400', badge: 'OVERLOAD', badgeColor: 'bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400', initials: 'SJ' },
-  { name: 'James Chen', tasks: 5, capacity: 62, color: 'bg-emerald-400', badge: 'OPTIMAL', badgeColor: 'bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400', initials: 'JC' },
-  { name: 'Mia Roberts', tasks: 2, capacity: 25, color: 'bg-blue-400', badge: 'AVAILABLE', badgeColor: 'bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400', initials: 'MR' },
+  { name: 'Cloud Migration', status: 'In Progress', statusColor: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400', progress: 75, barColor: 'bg-primary', deadline: 'Mar 24, 2026' },
+  { name: 'Mobile App Revamp', status: 'On Track', statusColor: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', progress: 40, barColor: 'bg-green-500', deadline: 'Apr 12, 2026' },
+  { name: 'Security Audit', status: 'Delayed', statusColor: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400', progress: 20, barColor: 'bg-red-500', deadline: 'Mar 30, 2026' },
 ];
 
 const DEADLINES = [
-  { month: 'Mar', day: '24', title: 'Server Migration Phase 1', subtitle: 'Cloud Infrastructure Project' },
-  { month: 'Mar', day: '26', title: 'Sprint Review Meeting', subtitle: 'Mobile App Team' },
-  { month: 'Mar', day: '30', title: 'Compliance Audit Prep', subtitle: 'Security Team' },
+  { month: 'Mar', day: '24', title: 'Server Migration Phase 1', subtitle: 'High Priority', dateBg: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' },
+  { month: 'Mar', day: '26', title: 'Sprint Review Meeting', subtitle: 'Internal Team', dateBg: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300' },
+  { month: 'Mar', day: '30', title: 'Compliance Audit Prep', subtitle: 'External Deadline', dateBg: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400' },
 ];
 
-const HEALTH_BARS = [30, 45, 65, 90, 55, 40, 80];
+const TEAM_MEMBERS = [
+  { name: 'Sarah Johnson', role: 'Product Designer', utilization: 60, segments: [true, true, true, false, false], avatar: 'SJ' },
+  { name: 'David Chen', role: 'Lead Engineer', utilization: 100, segments: [true, true, true, true, true], lastSegmentReview: true, avatar: 'DC' },
+  { name: 'Elena Rodriguez', role: 'QA Specialist', utilization: 40, segments: [true, true, false, false, false], avatar: 'ER' },
+];
 
 export default function DashboardPage() {
   const { user } = useAppStore();
   const router = useRouter();
+  const firstName = user?.full_name?.split(' ')[0] || 'Alex';
 
   return (
-    <div className="space-y-8">
-      {/* Welcome */}
-      <div>
-        <h2 className="text-3xl font-black tracking-tight">Dashboard Overview</h2>
-        <p className="text-muted-foreground mt-1">
-          Welcome back, {user?.full_name?.split(' ')[0] || 'Alex'}. You have 3 project updates since yesterday.
+    <div className="max-w-7xl mx-auto space-y-12">
+      {/* Hero Header */}
+      <section className="space-y-2">
+        <h2 className="text-4xl font-extrabold tracking-tight font-headline">Dashboard Overview</h2>
+        <p className="text-muted-foreground text-lg">
+          Welcome back, {firstName}. You have{' '}
+          <span className="text-primary font-bold">3 project updates</span> since yesterday.
         </p>
-      </div>
+      </section>
 
-      {/* Stats */}
+      {/* KPI Cards */}
       <StatsCards />
 
-      {/* Main grid: 2/3 + 1/3 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-        {/* Left column */}
-        <div className="lg:col-span-2 space-y-8">
-
-          {/* Active Projects Table */}
-          <div className="bg-card rounded-xl border overflow-hidden">
-            <div className="p-6 border-b flex justify-between items-center">
-              <h3 className="font-bold text-lg">Active Projects</h3>
-              <button
-                onClick={() => router.push(ROUTES.PROJECTS)}
-                className="text-primary text-sm font-semibold hover:underline"
-              >
-                View All
-              </button>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead>
-                  <tr className="bg-muted/50 text-muted-foreground text-xs uppercase tracking-wider">
-                    <th className="px-6 py-4 font-semibold">Project Name</th>
-                    <th className="px-6 py-4 font-semibold">Status</th>
-                    <th className="px-6 py-4 font-semibold">Progress</th>
-                    <th className="px-6 py-4 font-semibold">Deadline</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {PROJECTS.map((p) => (
-                    <tr key={p.name} className="hover:bg-muted/30 transition-colors">
-                      <td className="px-6 py-4 text-sm font-medium">{p.name}</td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-tight ${p.statusColor}`}>
-                          {p.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
-                            <div className={`h-full ${p.barColor}`} style={{ width: `${p.progress}%` }} />
-                          </div>
-                          <span className="text-xs font-semibold">{p.progress}%</span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-xs text-muted-foreground">{p.deadline}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+      {/* Main Workspace Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        {/* Active Projects Table */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xl font-bold font-headline">Active Projects</h3>
+            <button
+              onClick={() => router.push(ROUTES.PROJECTS)}
+              className="text-primary text-sm font-semibold hover:underline"
+            >
+              View All
+            </button>
           </div>
-
-          {/* Team Workload */}
-          <div className="bg-card rounded-xl border p-6">
-            <h3 className="font-bold text-lg mb-6">Team Workload</h3>
-            <div className="space-y-4">
-              {TEAM_MEMBERS.map((m) => (
-                <div key={m.name} className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-xs font-bold">
-                    {m.initials}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between mb-1">
-                      <span className="text-sm font-medium">{m.name}</span>
-                      <span className="text-xs font-medium text-muted-foreground">
-                        {m.tasks} tasks ({m.capacity}%)
+          <div className="bg-white dark:bg-slate-900 rounded-xl overflow-hidden shadow-[0px_12px_32px_rgba(44,52,55,0.04)]">
+            <table className="w-full text-left">
+              <thead className="bg-slate-50 dark:bg-slate-800/50">
+                <tr>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Project Name</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Progress</th>
+                  <th className="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider">Deadline</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                {PROJECTS.map((p) => (
+                  <tr key={p.name} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-5 font-semibold">{p.name}</td>
+                    <td className="px-6 py-5">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${p.statusColor}`}>
+                        {p.status}
                       </span>
-                    </div>
-                    <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div className={`h-full ${m.color}`} style={{ width: `${m.capacity}%` }} />
-                    </div>
-                  </div>
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${m.badgeColor}`}>
-                    {m.badge}
-                  </span>
-                </div>
-              ))}
-            </div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5">
+                        <div className={`h-1.5 rounded-full ${p.barColor}`} style={{ width: `${p.progress}%` }} />
+                      </div>
+                      <span className="text-[10px] text-muted-foreground mt-1 block">{p.progress}% Complete</span>
+                    </td>
+                    <td className="px-6 py-5 text-sm text-muted-foreground">{p.deadline}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
-        {/* Right column */}
-        <div className="space-y-8">
-
-          {/* Upcoming Deadlines */}
-          <div className="bg-card rounded-xl border p-6">
-            <h3 className="font-bold text-lg mb-4">Upcoming Deadlines</h3>
-            <div className="space-y-4">
-              {DEADLINES.map((d, i) => (
-                <div key={d.title} className="flex gap-4 items-start group">
-                  <div className="w-12 h-12 rounded-lg bg-muted flex flex-col items-center justify-center">
-                    <span className="text-xs font-bold uppercase leading-none">{d.month}</span>
-                    <span className="text-lg font-black leading-none mt-1">{d.day}</span>
-                  </div>
-                  <div className={`flex-1 ${i < DEADLINES.length - 1 ? 'border-b border-border pb-4' : 'pb-2'}`}>
-                    <h4 className="text-sm font-bold group-hover:text-primary transition-colors">{d.title}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">{d.subtitle}</p>
-                  </div>
+        {/* Right Sidebar */}
+        <div className="space-y-6">
+          <h3 className="text-xl font-bold font-headline">Upcoming Deadlines</h3>
+          <div className="space-y-4">
+            {DEADLINES.map((d) => (
+              <div
+                key={d.title}
+                className="bg-white dark:bg-slate-900 p-5 rounded-xl flex items-center gap-4 shadow-[0px_12px_32px_rgba(44,52,55,0.04)] hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all"
+              >
+                <div className={`${d.dateBg} px-3 py-2 rounded-lg text-center min-w-[56px]`}>
+                  <span className="block text-lg font-bold">{d.day}</span>
+                  <span className="text-[10px] uppercase font-bold tracking-widest">{d.month}</span>
                 </div>
-              ))}
-            </div>
-            <button
-              onClick={() => router.push(ROUTES.CALENDAR)}
-              className="w-full mt-4 py-2 bg-muted text-muted-foreground rounded-lg text-sm font-medium hover:bg-accent transition-colors"
-            >
-              View Full Calendar
-            </button>
+                <div>
+                  <h4 className="font-bold text-sm">{d.title}</h4>
+                  <p className="text-xs text-muted-foreground">{d.subtitle}</p>
+                </div>
+              </div>
+            ))}
           </div>
 
-          {/* Project Health */}
-          <div className="bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/20 p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold">Project Health</h3>
-              <TrendingUp className="h-5 w-5 text-primary" />
+          {/* CTA Card */}
+          <div className="bg-primary rounded-2xl p-6 text-white overflow-hidden relative group">
+            <div className="relative z-10 space-y-4">
+              <h4 className="text-xl font-bold font-headline leading-tight">
+                Maximize your team&apos;s throughput.
+              </h4>
+              <p className="text-sm font-medium opacity-80">
+                Review new analytics insights for the Q2 roadmap.
+              </p>
+              <button
+                onClick={() => router.push(ROUTES.ANALYTICS)}
+                className="bg-white text-primary px-4 py-2 rounded-full text-xs font-bold flex items-center gap-2 group-hover:gap-3 transition-all"
+              >
+                Open Insights
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
             </div>
-            <div className="h-32 flex items-end justify-between gap-1 mb-4">
-              {HEALTH_BARS.map((h, i) => (
-                <div
-                  key={i}
-                  className="w-full rounded-t transition-all"
-                  style={{
-                    height: `${h}%`,
-                    backgroundColor: `color-mix(in srgb, var(--primary) ${40 + (h / 100) * 60}%, transparent)`,
-                  }}
-                />
-              ))}
-            </div>
-            <p className="text-xs text-muted-foreground text-center">
-              Efficiency increased by 12% this week
-            </p>
+            <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute -left-4 -top-4 w-24 h-24 bg-white/5 rounded-full blur-2xl" />
           </div>
         </div>
       </div>
+
+      {/* Team Workload Summary */}
+      <section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h3 className="text-xl font-bold font-headline">Team Workload Summary</h3>
+          <div className="flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-primary" />
+            <span className="text-xs font-bold text-muted-foreground">Tasks</span>
+            <span className="w-3 h-3 rounded-full bg-violet-600 ml-4" />
+            <span className="text-xs font-bold text-muted-foreground">Reviews</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {TEAM_MEMBERS.map((m) => (
+            <div key={m.name} className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-primary shadow-sm">
+                  {m.avatar}
+                </div>
+                <div>
+                  <p className="font-bold text-sm">{m.name}</p>
+                  <p className="text-xs text-muted-foreground">{m.role}</p>
+                </div>
+              </div>
+              <div className="flex gap-1">
+                {m.segments.map((filled, i) => (
+                  <div
+                    key={i}
+                    className={`h-2 flex-1 rounded-full ${
+                      filled
+                        ? m.lastSegmentReview && i === m.segments.length - 1
+                          ? 'bg-violet-600'
+                          : 'bg-primary'
+                        : 'bg-slate-200 dark:bg-slate-700'
+                    }`}
+                  />
+                ))}
+              </div>
+              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
+                {m.utilization}% UTILIZED
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

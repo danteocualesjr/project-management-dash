@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS, ROUTES } from '@/lib/constants';
 import { useAppStore } from '@/store/use-app-store';
-import { Settings, Rocket } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export function Sidebar() {
@@ -21,22 +21,19 @@ export function Sidebar() {
     .slice(0, 2) || 'AR';
 
   return (
-    <aside className="w-64 border-r border-border bg-card dark:bg-background flex flex-col fixed h-full z-50">
+    <aside className="w-64 bg-slate-100 dark:bg-slate-900 flex flex-col fixed h-full z-50 p-4 gap-2">
       {/* Logo */}
-      <div className="p-6">
-        <Link href={ROUTES.DASHBOARD} className="flex items-center gap-3">
-          <div className="bg-primary rounded-lg p-2 text-white">
-            <Rocket className="h-5 w-5" />
-          </div>
-          <div>
-            <h1 className="text-sm font-bold leading-none">Vismotor Corp</h1>
-            <p className="text-xs text-muted-foreground mt-1">Project Suite</p>
-          </div>
+      <div className="px-4 py-6 mb-4">
+        <Link href={ROUTES.DASHBOARD}>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white font-headline">
+            Vismotor Corp
+          </h1>
+          <p className="text-xs text-muted-foreground font-medium">Project Management</p>
         </Link>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 space-y-1">
+      <nav className="flex-1 space-y-1">
         {NAV_ITEMS.map((item) => {
           const isActive =
             pathname === item.href ||
@@ -48,10 +45,10 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                'flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-all duration-150',
                 isActive
-                  ? 'bg-primary/10 text-primary dark:bg-primary/20'
-                  : 'text-muted-foreground hover:bg-accent dark:hover:bg-accent transition-colors'
+                  ? 'text-blue-600 dark:text-blue-400 font-bold bg-white dark:bg-slate-800 shadow-sm'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
               )}
             >
               <Icon className="h-5 w-5" />
@@ -62,26 +59,21 @@ export function Sidebar() {
       </nav>
 
       {/* User profile footer */}
-      <div className="p-4 border-t border-border">
+      <div className="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800">
         <div
-          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-accent transition-colors cursor-pointer"
+          className="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer"
           onClick={() => router.push(ROUTES.SETTINGS)}
         >
           <Avatar className="h-8 w-8">
             <AvatarImage src={user?.avatar_url || undefined} />
-            <AvatarFallback className="text-xs font-medium bg-muted">
+            <AvatarFallback className="text-xs font-medium bg-slate-200 dark:bg-slate-700">
               {initials}
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold truncate">
-              {user?.full_name || 'Alex Rivera'}
-            </p>
-            <p className="text-xs text-muted-foreground truncate">
-              {user?.email || 'Project Lead'}
-            </p>
-          </div>
-          <Settings className="h-4 w-4 text-muted-foreground" />
+          <span className="text-sm font-semibold text-slate-900 dark:text-white truncate">
+            {user?.full_name || 'Alex Rivera'}
+          </span>
+          <Settings className="h-4 w-4 text-slate-400 ml-auto" />
         </div>
       </div>
     </aside>

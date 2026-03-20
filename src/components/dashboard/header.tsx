@@ -37,37 +37,41 @@ export function Header() {
     .slice(0, 2) || 'U';
 
   return (
-    <header className="h-16 border-b border-border bg-card/50 dark:bg-background/50 backdrop-blur flex items-center justify-between px-8 sticky top-0 z-40">
+    <header className="h-16 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-40">
       {/* Search */}
-      <div className="flex items-center gap-4 flex-1 max-w-xl">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search projects, tasks, or team..."
-            className="w-full pl-10 pr-4 py-2 bg-muted dark:bg-muted border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/50 outline-none transition-all"
-          />
-        </div>
+      <div className="flex items-center bg-slate-200/60 dark:bg-slate-800/60 rounded-full px-4 py-1.5 w-96 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+        <Search className="h-4 w-4 text-muted-foreground mr-2 shrink-0" />
+        <input
+          type="text"
+          placeholder="Search projects or teams..."
+          className="bg-transparent border-none text-sm w-full focus:ring-0 focus:outline-none placeholder:text-muted-foreground p-0"
+        />
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         <button
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="p-2 text-muted-foreground hover:bg-accent rounded-lg transition-colors flex items-center justify-center"
+          className="text-slate-500 hover:text-primary transition-all"
         >
           <Sun className="h-5 w-5 block dark:hidden" />
           <Moon className="h-5 w-5 hidden dark:block" />
         </button>
 
-        <button className="p-2 text-muted-foreground hover:bg-accent rounded-lg transition-colors relative">
+        <button className="text-slate-500 hover:text-primary transition-all relative">
           <Bell className="h-5 w-5" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-card dark:border-background" />
+          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full" />
+        </button>
+
+        <button
+          onClick={() => router.push(ROUTES.SETTINGS)}
+          className="text-slate-500 hover:text-primary transition-all"
+        >
+          <Settings className="h-5 w-5" />
         </button>
 
         <Button
-          size="sm"
-          className="gap-2"
+          className="rounded-full px-5 shadow-lg shadow-primary/20 gap-2"
           onClick={() => router.push(ROUTES.PROJECTS)}
         >
           <Plus className="h-4 w-4" />
@@ -78,7 +82,7 @@ export function Header() {
           <DropdownMenuTrigger>
             <Avatar className="h-8 w-8 cursor-pointer">
               <AvatarImage src={user?.avatar_url || undefined} />
-              <AvatarFallback className="text-[10px] bg-muted">{initials}</AvatarFallback>
+              <AvatarFallback className="text-[10px] bg-slate-200 dark:bg-slate-700">{initials}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-48">
