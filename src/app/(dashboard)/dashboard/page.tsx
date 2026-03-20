@@ -19,9 +19,9 @@ const DEADLINES = [
 ];
 
 const TEAM_MEMBERS = [
-  { name: 'Sarah Johnson', role: 'Product Designer', utilization: 60, segments: [true, true, true, false, false], avatar: 'SJ' },
-  { name: 'David Chen', role: 'Lead Engineer', utilization: 100, segments: [true, true, true, true, true], lastSegmentReview: true, avatar: 'DC' },
-  { name: 'Elena Rodriguez', role: 'QA Specialist', utilization: 40, segments: [true, true, false, false, false], avatar: 'ER' },
+  { name: 'Sarah Johnson', role: 'Product Designer', utilization: 60, segments: [true, true, true, false, false], avatar: 'SJ', photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=faces' },
+  { name: 'David Chen', role: 'Lead Engineer', utilization: 100, segments: [true, true, true, true, true], lastSegmentReview: true, avatar: 'DC', photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=faces' },
+  { name: 'Elena Rodriguez', role: 'QA Specialist', utilization: 40, segments: [true, true, false, false, false], avatar: 'ER', photo: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=80&fit=crop&crop=faces' },
 ];
 
 export default function DashboardPage() {
@@ -148,9 +148,11 @@ export default function DashboardPage() {
           {TEAM_MEMBERS.map((m) => (
             <div key={m.name} className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-700 flex items-center justify-center text-xs font-bold text-primary shadow-sm">
-                  {m.avatar}
-                </div>
+                <img
+                  src={m.photo}
+                  alt={m.name}
+                  className="w-10 h-10 rounded-full object-cover bg-white dark:bg-slate-700 shadow-sm"
+                />
                 <div>
                   <p className="font-bold text-sm">{m.name}</p>
                   <p className="text-xs text-muted-foreground">{m.role}</p>
