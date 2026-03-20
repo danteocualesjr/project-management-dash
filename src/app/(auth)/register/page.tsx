@@ -52,7 +52,7 @@ export default function RegisterPage() {
           We sent you a confirmation link. Click it to activate your account.
         </p>
         <Button variant="outline" asChild className="mt-2">
-          <Link href={ROUTES.LOGIN}>Back to log in</Link>
+          <Link href={ROUTES.DASHBOARD}>Go to dashboard</Link>
         </Button>
       </div>
     );
@@ -93,8 +93,8 @@ export default function RegisterPage() {
 
       <p className="text-center text-sm text-muted-foreground">
         Have an account?{' '}
-        <Link href={ROUTES.LOGIN} className="text-foreground underline underline-offset-4 hover:text-foreground/80">
-          Log in
+        <Link href={ROUTES.DASHBOARD} className="text-foreground underline underline-offset-4 hover:text-foreground/80">
+          Go to dashboard
         </Link>
       </p>
     </div>

@@ -24,11 +24,8 @@ export default function HomePage() {
           <span className="font-semibold">Vismotor PM</span>
         </Link>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href={ROUTES.LOGIN}>Log in</Link>
-          </Button>
           <Button size="sm" asChild>
-            <Link href={ROUTES.REGISTER}>Get started free</Link>
+            <Link href={ROUTES.DASHBOARD}>Get started free</Link>
           </Button>
         </div>
       </nav>
@@ -48,12 +45,9 @@ export default function HomePage() {
           </p>
           <div className="mt-8 flex gap-3">
             <Button size="lg" asChild>
-              <Link href={ROUTES.REGISTER}>
+              <Link href={ROUTES.DASHBOARD}>
                 Get started <ArrowRight className="ml-1.5 h-4 w-4" />
               </Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href={ROUTES.LOGIN}>Log in</Link>
             </Button>
           </div>
         </div>
@@ -213,7 +207,7 @@ export default function HomePage() {
             <p className="mt-2 text-white/70">Free for all Vismotor Corporation teams. Get set up in minutes.</p>
           </div>
           <Button size="lg" variant="secondary" asChild className="flex-shrink-0">
-            <Link href={ROUTES.REGISTER}>
+            <Link href={ROUTES.DASHBOARD}>
               Start now <ArrowRight className="ml-1.5 h-4 w-4" />
             </Link>
           </Button>

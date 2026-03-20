@@ -37,7 +37,7 @@ export default function SettingsPage() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      router.push(ROUTES.LOGIN);
+      router.push(ROUTES.HOME);
     } catch (error) {
       toast.error('Failed to sign out');
     }
