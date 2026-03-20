@@ -12,6 +12,7 @@ import { Loader2 } from 'lucide-react';
 import { ROUTES } from '@/lib/constants';
 
 export default function LoginPage() {
+  
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
