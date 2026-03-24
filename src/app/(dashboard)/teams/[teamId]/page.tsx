@@ -93,14 +93,14 @@ export default function TeamPage() {
           </Link>
         </Button>
         <div className="flex items-center gap-3">
-          <div
-            className="h-10 w-10 rounded-lg flex items-center justify-center text-white text-xs font-bold"
+            <div
+            className="h-11 w-11 rounded-lg flex items-center justify-center text-white text-xs font-bold shadow-sm"
             style={{ backgroundColor: team.color || '#6366f1' }}
           >
             {team.name.slice(0, 2).toUpperCase()}
           </div>
           <div>
-            <h1 className="text-xl font-semibold tracking-tight">{team.name}</h1>
+            <h1 className="text-2xl font-extrabold tracking-tight font-headline">{team.name}</h1>
             {team.description && (
               <p className="text-sm text-muted-foreground">{team.description}</p>
             )}
@@ -128,7 +128,7 @@ export default function TeamPage() {
             {/* Quick Stats */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-lg">Team Stats</CardTitle>
+                <CardTitle className="text-lg font-headline">Team Stats</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -151,7 +151,7 @@ export default function TeamPage() {
             {/* Recent Members */}
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-lg">Team Members</CardTitle>
+                <CardTitle className="text-lg font-headline">Team Members</CardTitle>
                 <Button variant="ghost" size="sm" asChild>
                   <Link href={ROUTES.TEAM(team.id) + '/members'}>View All</Link>
                 </Button>
@@ -202,7 +202,7 @@ export default function TeamPage() {
           {/* Recent Projects */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-lg">Recent Projects</CardTitle>
+              <CardTitle className="text-lg font-headline">Recent Projects</CardTitle>
               <Button size="sm" asChild>
                 <Link href={ROUTES.PROJECTS + `?team=${team.id}&create=true`}>
                   <Plus className="mr-2 h-4 w-4" />
@@ -242,7 +242,7 @@ export default function TeamPage() {
         <TabsContent value="projects">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>All Projects</CardTitle>
+              <CardTitle className="font-headline">All Projects</CardTitle>
               <Button size="sm" asChild>
                 <Link href={ROUTES.PROJECTS + `?team=${team.id}&create=true`}>
                   <Plus className="mr-2 h-4 w-4" />
@@ -282,7 +282,7 @@ export default function TeamPage() {
         <TabsContent value="members">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Team Members</CardTitle>
+              <CardTitle className="font-headline">Team Members</CardTitle>
               <Button size="sm">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Member
@@ -317,7 +317,7 @@ export default function TeamPage() {
                   {members.map((member) => (
                     <div
                       key={member.id}
-                      className="flex items-center gap-4 p-3 rounded-lg border"
+                      className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm"
                     >
                       <Avatar className="h-12 w-12">
                         <AvatarImage src={member.user?.avatar_url} />
@@ -356,10 +356,10 @@ function ProjectRow({ project }: { project: Project }) {
 
   return (
     <Link href={ROUTES.PROJECT(project.id)}>
-      <div className="flex items-center gap-4 p-4 rounded-lg border hover:bg-muted/50 transition-colors">
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm hover:shadow-md hover:-translate-y-px transition-all">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h4 className="font-medium truncate">{project.name}</h4>
+            <h4 className="font-bold truncate font-headline">{project.name}</h4>
             <Badge variant="secondary" className={`${statusConfig.color} text-white`}>
               {statusConfig.label}
             </Badge>

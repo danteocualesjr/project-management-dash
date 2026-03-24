@@ -91,14 +91,14 @@ export default function ProjectKanbanPage() {
     return (
       <div className="space-y-6">
         <div className="flex items-center gap-4">
-          <div className="h-10 w-10 bg-muted rounded animate-pulse" />
-          <div className="h-8 w-48 bg-muted rounded animate-pulse" />
+          <div className="h-10 w-10 bg-slate-200 dark:bg-slate-800 rounded-lg animate-pulse" />
+          <div className="h-8 w-48 bg-slate-200 dark:bg-slate-800 rounded-lg animate-pulse" />
         </div>
         <div className="flex gap-4">
           {Array.from({ length: 5 }).map((_, i) => (
             <div
               key={i}
-              className="w-72 h-96 bg-muted rounded-lg animate-pulse"
+              className="w-72 h-96 bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse"
             />
           ))}
         </div>
@@ -129,7 +129,7 @@ export default function ProjectKanbanPage() {
                   style={{ backgroundColor: project.team.color }}
                 />
               )}
-              <h1 className="text-2xl font-bold">{project.name}</h1>
+              <h1 className="text-2xl font-extrabold font-headline">{project.name}</h1>
               <Badge
                 variant="secondary"
                 className={`${statusConfig.color} text-white`}

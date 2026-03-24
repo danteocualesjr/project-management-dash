@@ -10,11 +10,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   useTeams();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0d1117]">
       <Sidebar />
       <div className="ml-64 flex flex-col min-w-0">
         <Header />
-        <main className="p-8">{children}</main>
+        <main className="p-8 animate-fade-in">{children}</main>
       </div>
     </div>
   );
