@@ -120,7 +120,7 @@ export default function CalendarPage() {
         {/* Calendar Grid */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-            <CardTitle className="text-xl">
+            <CardTitle className="text-xl font-extrabold font-headline">
               {format(currentDate, 'MMMM yyyy')}
             </CardTitle>
             <div className="flex items-center gap-2">
@@ -207,7 +207,7 @@ export default function CalendarPage() {
         {/* Selected Date Details */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">
+            <CardTitle className="text-lg font-bold font-headline">
               {selectedDate
                 ? format(selectedDate, 'EEEE, MMMM d, yyyy')
                 : 'Select a date'}

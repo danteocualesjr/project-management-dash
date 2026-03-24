@@ -68,7 +68,7 @@ export default function SettingsPage() {
         {/* Profile Settings */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 font-headline">
               <User className="h-5 w-5" />
               Profile
             </CardTitle>
@@ -124,7 +124,7 @@ export default function SettingsPage() {
         {/* Appearance */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 font-headline">
               {isDark ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
               Appearance
             </CardTitle>
@@ -160,7 +160,7 @@ export default function SettingsPage() {
         {/* Notifications */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 font-headline">
               <Bell className="h-5 w-5" />
               Notifications
             </CardTitle>
@@ -178,7 +178,7 @@ export default function SettingsPage() {
         {/* Security */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 font-headline">
               <Shield className="h-5 w-5" />
               Security
             </CardTitle>

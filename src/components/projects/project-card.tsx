@@ -36,14 +36,14 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 
   return (
     <div
-      className="rounded-xl border bg-card p-5 hover:border-primary/20 hover:shadow-sm transition-all cursor-pointer"
+      className="rounded-xl bg-white dark:bg-slate-900 p-5 shadow-[0px_12px_32px_rgba(44,52,55,0.04)] hover:-translate-y-0.5 hover:shadow-[0px_16px_40px_rgba(44,52,55,0.08)] transition-all cursor-pointer"
       onClick={() => router.push(`${ROUTES.PROJECTS}/${project.id}`)}
     >
       <div className="flex items-start justify-between mb-1">
-        <p className="font-semibold text-sm truncate flex-1">{project.name}</p>
+        <p className="font-bold text-sm truncate flex-1 font-headline">{project.name}</p>
         <DropdownMenu>
           <DropdownMenuTrigger
-            className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors flex-shrink-0"
+            className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex-shrink-0"
             onClick={(e) => e.stopPropagation()}
           >
             <MoreHorizontal className="h-4 w-4" />
@@ -61,7 +61,7 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
 
       <div className="flex items-center gap-1.5 mb-3">
         <span className={cn('h-2 w-2 rounded-full', statusDot[project.status] || 'bg-slate-400')} />
-        <span className="text-xs text-muted-foreground">{statusConfig.label}</span>
+        <span className="text-xs text-muted-foreground font-medium">{statusConfig.label}</span>
       </div>
 
       {project.description && (
@@ -72,9 +72,9 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         <div className="mb-3">
           <div className="flex items-center justify-between text-xs mb-1.5">
             <span className="text-muted-foreground">{completed} of {total} tasks</span>
-            <span className="font-medium tabular-nums">{pct}%</span>
+            <span className="font-bold tabular-nums">{pct}%</span>
           </div>
-          <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+          <div className="h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
             <div
               className="h-full bg-primary rounded-full transition-all"
               style={{ width: `${pct}%` }}
@@ -83,10 +83,10 @@ export function ProjectCard({ project, onEdit, onDelete }: ProjectCardProps) {
         </div>
       )}
 
-      <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t">
-        {project.team ? <span>{project.team.name}</span> : <span />}
+      <div className="flex items-center justify-between text-xs text-muted-foreground pt-3 border-t border-slate-100 dark:border-slate-800">
+        {project.team ? <span className="font-medium">{project.team.name}</span> : <span />}
         {project.end_date && (
-          <span className={cn('flex items-center gap-1', overdue && 'text-destructive')}>
+          <span className={cn('flex items-center gap-1', overdue && 'text-destructive font-medium')}>
             <Calendar className="h-3 w-3" />
             {format(new Date(project.end_date), 'MMM d')}
           </span>

@@ -130,7 +130,7 @@ export default function MyTasksPage() {
           ) : filteredTasks.length === 0 ? (
             <EmptyState icon={Search} title="No tasks found" description="Try adjusting your filters or search query." />
           ) : (
-            <div className="rounded-xl border bg-card overflow-hidden divide-y">
+            <div className="rounded-xl bg-white dark:bg-slate-900 overflow-hidden divide-y divide-slate-100 dark:divide-slate-800 shadow-[0px_12px_32px_rgba(44,52,55,0.04)]">
               {filteredTasks.map((task) => (
                 <TaskRow key={task.id} task={task} onToggleComplete={() => handleToggleComplete(task)} getDueDateLabel={getDueDateLabel} />
               ))}
@@ -151,7 +151,7 @@ function TaskRow({ task, onToggleComplete, getDueDateLabel }: {
   const overdue = task.due_date && isPast(new Date(task.due_date)) && !isToday(new Date(task.due_date));
 
   return (
-    <div className={cn('flex items-center gap-3 px-4 py-2.5 hover:bg-muted/40 transition-colors', isDone && 'opacity-60')}>
+    <div className={cn('flex items-center gap-3 px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors', isDone && 'opacity-60')}>
       <Checkbox checked={isDone} onCheckedChange={onToggleComplete} className="flex-shrink-0" />
       <span className={cn('h-2 w-2 rounded-full flex-shrink-0', priorityDot[task.priority] || 'bg-slate-300')} title={TASK_PRIORITY_CONFIG[task.priority]?.label} />
       <div className="flex-1 min-w-0">

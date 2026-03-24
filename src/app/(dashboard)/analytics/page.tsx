@@ -237,57 +237,24 @@ export default function AnalyticsPage() {
       </PageHeader>
 
       {/* Overview Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
-            <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalTasks}</div>
-            <p className="text-xs text-muted-foreground">
-              {stats.completedTasks} completed
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completion Rate</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{completionRate}%</div>
-            <p className="text-xs text-muted-foreground">
-              Overall completion rate
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">In Progress</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.inProgressTasks}</div>
-            <p className="text-xs text-muted-foreground">
-              Currently active tasks
-            </p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Overdue</CardTitle>
-            <Clock className="h-4 w-4 text-destructive" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-destructive">
-              {stats.overdueTasks}
-            </div>
-            <p className="text-xs text-muted-foreground">
-              Tasks past due date
-            </p>
-          </CardContent>
-        </Card>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {[
+          { label: 'Total Tasks', value: stats.totalTasks, sub: `${stats.completedTasks} completed`, icon: CheckCircle2, accent: false },
+          { label: 'Completion Rate', value: `${completionRate}%`, sub: 'Overall completion rate', icon: TrendingUp, accent: true },
+          { label: 'In Progress', value: stats.inProgressTasks, sub: 'Currently active tasks', icon: Clock, accent: false },
+          { label: 'Overdue', value: stats.overdueTasks, sub: 'Tasks past due date', icon: Clock, accent: false, destructive: true },
+        ].map((card) => (
+          <div
+            key={card.label}
+            className={`bg-white dark:bg-slate-900 p-6 rounded-xl shadow-[0px_12px_32px_rgba(44,52,55,0.04)] hover:-translate-y-0.5 transition-all ${card.accent ? 'border-l-4 border-primary' : ''}`}
+          >
+            <p className="text-muted-foreground text-xs font-semibold tracking-wider uppercase mb-3">{card.label}</p>
+            <h3 className={`text-3xl font-bold font-headline ${card.destructive ? 'text-destructive' : card.accent ? 'text-primary' : ''}`}>
+              {card.value}
+            </h3>
+            <p className="text-xs text-muted-foreground mt-1">{card.sub}</p>
+          </div>
+        ))}
       </div>
 
       {/* Charts */}
@@ -303,7 +270,7 @@ export default function AnalyticsPage() {
             {/* Task Trend Chart */}
             <Card>
               <CardHeader>
-                <CardTitle>Task Activity</CardTitle>
+                <CardTitle className="font-headline">Task Activity</CardTitle>
                 <CardDescription>
                   Tasks created and completed over time
                 </CardDescription>
@@ -347,7 +314,7 @@ export default function AnalyticsPage() {
             {/* Project Status */}
             <Card>
               <CardHeader>
-                <CardTitle>Project Status Distribution</CardTitle>
+                <CardTitle className="font-headline">Project Status Distribution</CardTitle>
                 <CardDescription>
                   Projects by current status
                 </CardDescription>
@@ -387,7 +354,7 @@ export default function AnalyticsPage() {
             {/* Tasks by Status */}
             <Card>
               <CardHeader>
-                <CardTitle>Tasks by Status</CardTitle>
+                <CardTitle className="font-headline">Tasks by Status</CardTitle>
                 <CardDescription>
                   Distribution of tasks across statuses
                 </CardDescription>
@@ -422,7 +389,7 @@ export default function AnalyticsPage() {
             {/* Tasks by Priority */}
             <Card>
               <CardHeader>
-                <CardTitle>Tasks by Priority</CardTitle>
+                <CardTitle className="font-headline">Tasks by Priority</CardTitle>
                 <CardDescription>
                   Distribution of tasks by priority level
                 </CardDescription>
@@ -459,7 +426,7 @@ export default function AnalyticsPage() {
         <TabsContent value="teams" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Team Productivity</CardTitle>
+                <CardTitle className="font-headline">Team Productivity</CardTitle>
               <CardDescription>
                 Tasks completed vs total tasks per team
               </CardDescription>

@@ -312,14 +312,14 @@ function BoardColumn({
 
   return (
     <div className={cn(
-      'flex flex-col w-72 min-w-[272px] rounded-xl bg-muted/50 border transition-colors',
+      'flex flex-col w-72 min-w-[272px] rounded-xl bg-slate-50 dark:bg-slate-900/50 shadow-[0px_12px_32px_rgba(44,52,55,0.04)] transition-colors',
       isOver && 'ring-2 ring-primary/30 bg-primary/5'
     )}>
-      <div className="flex items-center justify-between p-3 border-b">
+      <div className="flex items-center justify-between p-3 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2">
           <div className={cn('h-2.5 w-2.5 rounded-full', column.color)} />
-          <h3 className="font-medium text-sm">{column.label}</h3>
-          <span className="text-[11px] text-muted-foreground bg-background border px-1.5 py-px rounded-full tabular-nums">
+          <h3 className="font-bold text-sm font-headline">{column.label}</h3>
+          <span className="text-[11px] text-muted-foreground bg-white dark:bg-slate-800 shadow-sm px-1.5 py-px rounded-full tabular-nums font-bold">
             {tasks.length}
           </span>
         </div>
@@ -380,7 +380,7 @@ function BoardTaskCard({
   return (
     <div
       className={cn(
-        'rounded-lg border bg-card p-3 shadow-sm hover:border-primary/20 hover:shadow-md transition-all cursor-grab active:cursor-grabbing',
+        'rounded-lg bg-white dark:bg-slate-800 p-3 shadow-sm hover:shadow-md hover:-translate-y-px transition-all cursor-grab active:cursor-grabbing',
         isDragging && 'opacity-50 shadow-lg ring-2 ring-primary/20',
         isDone && 'opacity-60'
       )}
