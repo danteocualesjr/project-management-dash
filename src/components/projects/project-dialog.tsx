@@ -118,7 +118,7 @@ export function ProjectDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{project ? 'Edit Project' : 'Create Project'}</DialogTitle>
+          <DialogTitle className="font-headline font-extrabold text-lg">{project ? 'Edit Project' : 'Create Project'}</DialogTitle>
           <DialogDescription>
             {project
               ? 'Update the project details below.'

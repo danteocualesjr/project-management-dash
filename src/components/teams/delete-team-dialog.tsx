@@ -46,7 +46,7 @@ export function DeleteTeamDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete Team</AlertDialogTitle>
+          <AlertDialogTitle className="font-headline font-extrabold">Delete Team</AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete <strong>{team?.name}</strong>? This
             action cannot be undone. All projects and tasks associated with this

@@ -24,6 +24,13 @@ const TEAM_MEMBERS = [
   { name: 'Elena Rodriguez', role: 'QA Specialist', utilization: 40, segments: [true, true, false, false, false], avatar: 'ER', photo: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=80&fit=crop&crop=faces' },
 ];
 
+function getGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 18) return 'Good afternoon';
+  return 'Good evening';
+}
+
 export default function DashboardPage() {
   const { user } = useAppStore();
   const router = useRouter();
@@ -33,9 +40,12 @@ export default function DashboardPage() {
     <div className="max-w-7xl mx-auto space-y-12">
       {/* Hero Header */}
       <section className="space-y-2">
+        <p className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
+          {getGreeting()}, {firstName}
+        </p>
         <h2 className="text-4xl font-extrabold tracking-tight font-headline">Dashboard Overview</h2>
         <p className="text-muted-foreground text-lg">
-          Welcome back, {firstName}. You have{' '}
+          You have{' '}
           <span className="text-primary font-bold">3 project updates</span> since yesterday.
         </p>
       </section>

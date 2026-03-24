@@ -3,7 +3,6 @@
 import { useDroppable } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { TaskCard } from '../tasks/task-card';
 import type { Task } from '@/types';
@@ -27,33 +26,29 @@ export function KanbanColumn({
   onTaskClick,
   onAddTask,
 }: KanbanColumnProps) {
-  const { setNodeRef, isOver } = useDroppable({
-    id,
-  });
+  const { setNodeRef, isOver } = useDroppable({ id });
 
   return (
     <div
       className={cn(
-        'flex flex-col w-72 min-w-72 bg-muted/50 rounded-lg',
-        isOver && 'ring-2 ring-primary/30'
+        'flex flex-col w-72 min-w-72 bg-slate-50 dark:bg-slate-900/50 rounded-xl shadow-[0px_12px_32px_rgba(44,52,55,0.04)] transition-colors',
+        isOver && 'ring-2 ring-primary/30 bg-primary/5'
       )}
     >
-      <div className="flex items-center justify-between p-3 border-b">
+      <div className="flex items-center justify-between p-3 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2">
-          <div className={cn('h-3 w-3 rounded-full', color)} />
-          <h3 className="font-medium text-sm">{title}</h3>
-          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+          <div className={cn('h-2.5 w-2.5 rounded-full', color)} />
+          <h3 className="font-bold text-sm font-headline">{title}</h3>
+          <span className="text-[11px] text-muted-foreground bg-white dark:bg-slate-800 shadow-sm px-1.5 py-px rounded-full tabular-nums font-bold">
             {tasks.length}
           </span>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-7 w-7"
+        <button
           onClick={onAddTask}
+          className="h-7 w-7 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors"
         >
           <Plus className="h-4 w-4" />
-        </Button>
+        </button>
       </div>
 
       <ScrollArea className="flex-1 p-2" ref={setNodeRef}>
@@ -66,7 +61,7 @@ export function KanbanColumn({
             />
           ))}
           {tasks.length === 0 && (
-            <div className="flex items-center justify-center h-32 text-sm text-muted-foreground">
+            <div className="flex items-center justify-center h-32 rounded-lg border border-dashed border-slate-200 dark:border-slate-800 text-xs text-muted-foreground">
               Drop tasks here
             </div>
           )}

@@ -146,7 +146,7 @@ export function TaskDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{task ? 'Edit Task' : 'Create Task'}</DialogTitle>
+          <DialogTitle className="font-headline font-extrabold text-lg">{task ? 'Edit Task' : 'Create Task'}</DialogTitle>
           <DialogDescription>
             {task ? 'Update the task details below.' : 'Add a new task to this project.'}
           </DialogDescription>
