@@ -99,10 +99,12 @@ export function Header() {
 
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Avatar className="h-8 w-8 cursor-pointer">
-                <AvatarImage src={user?.avatar_url || undefined} />
-                <AvatarFallback className="text-[10px] bg-slate-200 dark:bg-slate-700">{initials}</AvatarFallback>
-              </Avatar>
+              <div className="status-online">
+                <Avatar className="h-8 w-8 cursor-pointer">
+                  <AvatarImage src={user?.avatar_url || undefined} />
+                  <AvatarFallback className="text-[10px] bg-slate-200 dark:bg-slate-700">{initials}</AvatarFallback>
+                </Avatar>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuLabel className="font-normal">
