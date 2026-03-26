@@ -31,7 +31,7 @@ import { cn } from '@/lib/utils';
 export default function CalendarPage() {
   const supabase = createClient();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -133,6 +133,14 @@ export default function CalendarPage() {
             </div>
           </CardHeader>
           <CardContent>
+            {isLoading && (
+              <div className="grid grid-cols-7 gap-1 mb-4">
+                {Array.from({ length: 35 }).map((_, i) => (
+                  <div key={i} className="min-h-24 rounded-lg skeleton" />
+                ))}
+              </div>
+            )}
+            {!isLoading && <>
             {/* Week Headers */}
             <div className="grid grid-cols-7 mb-2">
               {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
@@ -201,6 +209,7 @@ export default function CalendarPage() {
                 );
               })}
             </div>
+            </>}
           </CardContent>
         </Card>
 
