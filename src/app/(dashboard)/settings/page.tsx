@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { toast } from 'sonner';
 import { PageHeader } from '@/components/shared/page-header';
 import { Button } from '@/components/ui/button';
@@ -12,13 +13,13 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { useUser } from '@/hooks/use-user';
 import { ROUTES } from '@/lib/constants';
-import { Loader2, User, Shield, Bell, Moon, Sun } from 'lucide-react';
+import { Loader2, User, Shield, Bell, Moon, Sun, Monitor } from 'lucide-react';
 
 export default function SettingsPage() {
   const router = useRouter();
+  const { theme, setTheme } = useTheme();
   const { user, updateProfile, signOut } = useUser();
   const [isLoading, setIsLoading] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const [fullName, setFullName] = useState(user?.full_name || '');
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
@@ -41,11 +42,6 @@ export default function SettingsPage() {
     } catch (error) {
       toast.error('Failed to sign out');
     }
-  };
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
   };
 
   const getInitials = (name: string) => {
@@ -125,7 +121,7 @@ export default function SettingsPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline">
-              {isDark ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              {theme === 'dark' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
               Appearance
             </CardTitle>
             <CardDescription>
@@ -133,26 +129,32 @@ export default function SettingsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">Dark Mode</p>
-                <p className="text-sm text-muted-foreground">
-                  Toggle between light and dark theme
-                </p>
+            <div className="space-y-3">
+              <p className="text-sm font-medium text-muted-foreground">Choose a theme</p>
+              <div className="grid grid-cols-3 gap-3">
+                {([
+                  { value: 'light', label: 'Light', icon: Sun },
+                  { value: 'dark', label: 'Dark', icon: Moon },
+                  { value: 'system', label: 'System', icon: Monitor },
+                ] as const).map((opt) => {
+                  const Icon = opt.icon;
+                  const isActive = theme === opt.value;
+                  return (
+                    <button
+                      key={opt.value}
+                      onClick={() => setTheme(opt.value)}
+                      className={`flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all ${
+                        isActive
+                          ? 'border-primary bg-primary/5 text-primary shadow-sm'
+                          : 'border-transparent bg-slate-50 dark:bg-slate-800/50 text-muted-foreground hover:border-slate-200 dark:hover:border-slate-700'
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" />
+                      <span className="text-xs font-bold">{opt.label}</span>
+                    </button>
+                  );
+                })}
               </div>
-              <Button variant="outline" onClick={toggleTheme}>
-                {isDark ? (
-                  <>
-                    <Sun className="mr-2 h-4 w-4" />
-                    Light
-                  </>
-                ) : (
-                  <>
-                    <Moon className="mr-2 h-4 w-4" />
-                    Dark
-                  </>
-                )}
-              </Button>
             </div>
           </CardContent>
         </Card>
