@@ -19,7 +19,7 @@ import { useMyTasks } from '@/hooks/use-tasks';
 import { ROUTES } from '@/lib/constants';
 import { TASK_PRIORITY_CONFIG, TASK_STATUS_CONFIG } from '@/types';
 import type { Task, TaskPriority, TaskStatus } from '@/types';
-import { Search, CheckSquare, Calendar, Circle } from 'lucide-react';
+import { Search, CheckSquare, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
@@ -83,7 +83,7 @@ export default function MyTasksPage() {
         <PageHeader title="My Tasks" description="Tasks assigned to you" />
         <div className="space-y-2">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-14 bg-muted/50 rounded-lg animate-pulse" />
+            <div key={i} className="h-14 skeleton" style={{ animationDelay: `${i * 100}ms` }} />
           ))}
         </div>
       </div>
@@ -131,8 +131,10 @@ export default function MyTasksPage() {
             <EmptyState icon={Search} title="No tasks found" description="Try adjusting your filters or search query." />
           ) : (
             <div className="rounded-xl bg-white dark:bg-slate-900 overflow-hidden divide-y divide-slate-100 dark:divide-slate-800 shadow-[0px_12px_32px_rgba(44,52,55,0.04)]">
-              {filteredTasks.map((task) => (
-                <TaskRow key={task.id} task={task} onToggleComplete={() => handleToggleComplete(task)} getDueDateLabel={getDueDateLabel} />
+              {filteredTasks.map((task, index) => (
+                <div key={task.id} className="animate-fade-in" style={{ animationDelay: `${index * 40}ms` }}>
+                  <TaskRow task={task} onToggleComplete={() => handleToggleComplete(task)} getDueDateLabel={getDueDateLabel} />
+                </div>
               ))}
             </div>
           )}
