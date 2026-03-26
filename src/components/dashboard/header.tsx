@@ -77,9 +77,14 @@ export function Header() {
             <Moon className="h-5 w-5 hidden dark:block" />
           </button>
 
-          <button className="text-slate-500 hover:text-primary transition-all relative">
-            <Bell className="h-5 w-5" />
-            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full" />
+          <button className="text-slate-500 hover:text-primary transition-all relative group/bell">
+            <Bell className="h-5 w-5 group-hover/bell:animate-[wiggle_0.3s_ease-in-out]" />
+            <span className="absolute -top-1.5 -right-2 flex items-center justify-center">
+              <span className="absolute inline-flex h-4 w-4 rounded-full bg-red-400 opacity-75 animate-ping" />
+              <span className="relative inline-flex items-center justify-center h-4 w-4 rounded-full bg-red-500 text-[9px] font-bold text-white leading-none">
+                3
+              </span>
+            </span>
           </button>
 
           <button
