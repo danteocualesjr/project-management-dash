@@ -39,7 +39,7 @@ export default function DashboardPage() {
   return (
     <div className="max-w-7xl mx-auto space-y-12">
       {/* Hero Header */}
-      <section className="space-y-2">
+      <section className="space-y-2 animate-fade-in">
         <p className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
           {getGreeting()}, {firstName}
         </p>
@@ -78,16 +78,23 @@ export default function DashboardPage() {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {PROJECTS.map((p) => (
-                  <tr key={p.name} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                    <td className="px-6 py-5 font-semibold">{p.name}</td>
+                  <tr
+                    key={p.name}
+                    onClick={() => router.push(ROUTES.PROJECTS)}
+                    className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors cursor-pointer group"
+                  >
+                    <td className="px-6 py-5 font-semibold group-hover:text-primary transition-colors">{p.name}</td>
                     <td className="px-6 py-5">
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${p.statusColor}`}>
                         {p.status}
                       </span>
                     </td>
                     <td className="px-6 py-5">
-                      <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5">
-                        <div className={`h-1.5 rounded-full ${p.barColor}`} style={{ width: `${p.progress}%` }} />
+                      <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-1.5 overflow-hidden">
+                        <div
+                          className={`h-1.5 rounded-full ${p.barColor} transition-all duration-1000 ease-out`}
+                          style={{ width: `${p.progress}%`, animationDelay: '200ms' }}
+                        />
                       </div>
                       <span className="text-[10px] text-muted-foreground mt-1 block">{p.progress}% Complete</span>
                     </td>
@@ -172,13 +179,14 @@ export default function DashboardPage() {
                 {m.segments.map((filled, i) => (
                   <div
                     key={i}
-                    className={`h-2 flex-1 rounded-full ${
+                    className={`h-2 flex-1 rounded-full transition-all duration-700 ease-out ${
                       filled
                         ? m.lastSegmentReview && i === m.segments.length - 1
                           ? 'bg-violet-600'
                           : 'bg-primary'
                         : 'bg-slate-200 dark:bg-slate-700'
                     }`}
+                    style={{ transitionDelay: `${i * 100}ms` }}
                   />
                 ))}
               </div>
